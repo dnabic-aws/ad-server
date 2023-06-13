@@ -43,8 +43,16 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/ad", client.ServeAd).Methods("GET")
+	r.HandleFunc("/", client.Health).Methods("GET")
 	fmt.Println("Starting up on 8081")
 	log.Fatal(http.ListenAndServe(":8081", r))
+}
+
+func (c *client) Health(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	fmt.Fprintln(w, "{}")
 }
 
 func (c *client) ServeAd(w http.ResponseWriter, req *http.Request) {
