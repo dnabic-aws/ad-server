@@ -18,9 +18,10 @@ type adInfo struct {
 	Result string
 }
 
-// export ADSERVER_ADRECOMMENDERURL="http://localhost:8085"
+// export ADSERVER_ADRECOMMENDERURL="http://localhost:8080"
 type config struct {
-	AdRecommenderURL string `default:"http://localhost:8080"`
+	//AdRecommenderURL string `default:"http://localhost:8080"`
+	AdRecommenderURL string `default:"http://recommendation.service.local"`
 }
 
 type client struct {
@@ -44,8 +45,8 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/ad", client.ServeAd).Methods("GET")
 	r.HandleFunc("/", client.Health).Methods("GET")
-	fmt.Println("Starting up on 8081")
-	log.Fatal(http.ListenAndServe(":8081", r))
+	fmt.Println("Starting up listener on port 80")
+	log.Fatal(http.ListenAndServe(":80", r))
 }
 
 func (c *client) Health(w http.ResponseWriter, req *http.Request) {
